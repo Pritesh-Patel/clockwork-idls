@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package clockwork.job;
+
+import "google/protobuf/struct.proto";
+
+message JobId {
+    string id = 1;
+}
+
+message Job {
+    string id = 1;
+    google.protobuf.Struct data = 2;
+    string executionTimestamp = 3;
+    string cog = 4;
+    repeated string tags = 5;
+    RecoveryOptions recoveryOptions = 6;
+}
+
+message RecoveryOptions {
+    int32 maxRetry = 1;
+    string maxRetryWindow = 2;
+}

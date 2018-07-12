@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package clockwork.store;
+
+import "clockwork_job.proto";
+import "google/protobuf/struct.proto";
+
+service ClockworkService{
+    rpc ScheduleJob(ScheduleJobRequest) returns (clockwork.job.JobId);
+    rpc GetJob(clockwork.job.JobId) returns (clockwork.job.Job);
+    rpc UpdateJob(clockwork.job.Job) returns (clockwork.job.JobId);
+    rpc DeleteJob(clockwork.job.JobId) returns (clockwork.job.JobId);
+    rpc GetJobsToSchedule(stream JobsToScheduleRequest) returns (stream clockwork.job.Job);
+    rpc MarkJobAsSuccesful(clockwork.job.JobId) returns (clockwork.job.JobId);
+    rpc MarkJobAsFailure(clockwork.job.JobId) returns (clockwork.job.JobId);
+}
+
+message ScheduleJobRequest {
+    string executionTimestamp = 1;
+    google.protobuf.Struct data = 2;
+    clockwork.job.RecoveryOptions recoveryOptions = 3;
+    string cog = 4;
+    repeated string tags = 5; // allows the users to tie jobs to there own ids
+}
+
+message ScheduleJobResponse {
+    string id = 1;
+}
+
+message JobsToScheduleRequest{
+    string executionTimestampMax = 1;
+    string executionTimestampMin = 2;
+}
