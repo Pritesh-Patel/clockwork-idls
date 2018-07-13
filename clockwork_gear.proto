@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package clockwork.gear;
+package clockwork.cog;
 
 import "clockwork_job.proto";
 
-service ClockworkGearService{
+service ClockworkCogService{
     rpc ExecuteJob(clockwork.job.Job) returns (clockwork.job.JobId);
 }
